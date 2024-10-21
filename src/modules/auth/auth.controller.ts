@@ -1,7 +1,8 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUsuarioDto } from '../usuario/dto/create-usuario.dto';
 import { LoginDto } from './dtos/login.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -15,5 +16,11 @@ export class AuthController {
   @Post('register')
   async register(@Body() dto: CreateUsuarioDto) {
     return await this.authService.register(dto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('validar-sesion')
+  validarSesion() {
+    return { mensaje: 'Sesión válida' };
   }
 }
