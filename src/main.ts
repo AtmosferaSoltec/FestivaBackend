@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { httpsCertificate } from './config/https-certificate';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions: httpsCertificate(),
+  });
   const logger = new Logger('bootstrap');
   app.enableCors();
   app.setGlobalPrefix('api');
